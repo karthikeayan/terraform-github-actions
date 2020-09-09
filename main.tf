@@ -14,3 +14,8 @@ resource "null_resource" "example" {
       value = "A example resource that does nothing!"
     }
 }
+
+module "karthik_devops" {
+  source = "git@github.com:karthikeayan/devops?ref=master"
+  key    = "value"
+}
