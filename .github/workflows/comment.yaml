@@ -11,7 +11,7 @@ jobs:
     name: Terraform Destroy Plan
     runs-on: ubuntu-latest
     steps:
-      - run: echo yes
+      - run: echo ${{ github.event.comment.body }}
         id: comment
         if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
       - name: Checkout
