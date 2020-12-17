@@ -2,7 +2,7 @@ name: 'Issue Comment'
 on: issue_comment
 
 env:
-  tf_working_dir: '.github'
+  tf_working_dir: 'test'
 
 jobs:
   destroy-plan:
