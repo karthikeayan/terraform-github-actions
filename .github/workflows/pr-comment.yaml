@@ -1,5 +1,6 @@
 name: 'Terraform Dev Fargate Merge Workflow'
-on: pull_requests
+on:
+  pull_request:
 jobs:
   terragrunt:
     name: Dev Fargate
