@@ -13,7 +13,6 @@ jobs:
     steps:
       - run: echo ${{ github.event.comment.body }}
         id: comment
-        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
       - name: Checkout
         uses: actions/checkout@v2
         if: steps.comment.outputs.stdout == 'yes'
