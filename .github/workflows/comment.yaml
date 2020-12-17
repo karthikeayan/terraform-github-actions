@@ -1,0 +1,19 @@
+name: 'Issue Comment'
+on:
+  issues:
+    types: [opened]
+
+env:
+  tf_working_dir: './'
+
+jobs:
+  destroy-plan:
+    name: Terraform Destroy Plan
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo yes
+        id: comment
+        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
+      - name: Checkout
+        uses: actions/checkout@v2
+        if: steps.comment.outputs.stdout == 'yes'
