@@ -47,7 +47,7 @@ name: 'Terraform'
 on:
   push:
     branches:
-    - master
+    - do_not_trigger
   pull_request:
 
 jobs:
