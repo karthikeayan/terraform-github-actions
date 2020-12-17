@@ -15,7 +15,7 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - run: echo yes
+      - run: ::set-env name=MATCHED::yes
         id: comment
         if: contains(github.event.issue.body, 'destroy lsrims-dev fargate-apps-v1')
       - name: Dump Steps Context
@@ -24,4 +24,4 @@ jobs:
         run: echo "$STEPS_CONTEXT"
       - name: Checkout
         uses: actions/checkout@v2
-        if: steps.comment.outputs.stdout == 'yes'
+        if: $MATCHED == 'yes'
