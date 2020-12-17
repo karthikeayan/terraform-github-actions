@@ -1,9 +1,9 @@
-name: 'Terraform Dev Fargate Merge Workflow'
+name: 'pr-comment'
 on:
   pull_request:
 jobs:
-  terragrunt:
-    name: Dev Fargate
+  pr-comment:
+    name: Pull Request Comment
     runs-on: ubuntu-latest
     steps:
       - run: echo "::set-output name=matched::yes"
