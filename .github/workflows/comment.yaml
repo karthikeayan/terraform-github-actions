@@ -11,7 +11,7 @@ jobs:
     name: Terraform Destroy Plan
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event.comment.body }}
+      - run: echo ${{ github.event }}
         id: comment
       - name: Checkout
         uses: actions/checkout@v2
