@@ -1,0 +1,25 @@
+name: 'Issue Comment'
+on: issue_comment
+
+env:
+  tf_working_dir: './'
+
+jobs:
+  destroy-plan:
+    name: Terraform Destroy Plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - run: echo "::set-output name=matched::yes"
+        id: comment
+        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
+      - name: Dump Steps Context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Checkout
+        uses: actions/checkout@v2
+        if: steps.comment.outputs.matched == 'yes'
