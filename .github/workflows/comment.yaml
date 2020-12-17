@@ -11,8 +11,7 @@ jobs:
     name: Terraform Destroy Plan
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ github.event }}
-        id: comment
-      - name: Checkout
-        uses: actions/checkout@v2
-        if: steps.comment.outputs.stdout == 'yes'
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
