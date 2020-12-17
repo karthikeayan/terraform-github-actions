@@ -15,3 +15,9 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - run: echo yes
+        id: comment
+        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
+      - name: Checkout
+        uses: actions/checkout@v2
+        if: steps.comment.outputs.stdout == 'yes'
