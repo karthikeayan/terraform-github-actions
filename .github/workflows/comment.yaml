@@ -18,6 +18,10 @@ jobs:
       - run: echo yes
         id: comment
         if: contains(github.event.issue.body, 'destroy lsrims-dev fargate-apps-v1')
+      - name: Dump Steps Context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
       - name: Checkout
         uses: actions/checkout@v2
         if: steps.comment.outputs.stdout == 'yes'
