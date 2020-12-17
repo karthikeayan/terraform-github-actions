@@ -8,10 +8,9 @@ jobs:
   destroy-plan:
     name: Terraform Destroy Plan
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.tf_working_dir }}
     steps:
+      - run: pwd
+        shell: bash
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
