@@ -1,0 +1,17 @@
+name: 'Terraform Dev Fargate Merge Workflow'
+on: pull_requests
+jobs:
+  terragrunt:
+    name: Dev Fargate
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "::set-output name=matched::yes"
+        id: comment
+      - uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLY: "terraform\n${{ steps.comment.outputs.matched }}"
+        with:
+          message: |
+            **${{  env.APPLY }}**
+          allow-repeats: true
