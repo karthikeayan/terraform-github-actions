@@ -36,4 +36,4 @@ jobs:
     needs: [destroy-plan]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.destroy-plan.outputs.matched }}
+      - run: echo "${{ needs.destroy-plan.outputs.matched }}"
