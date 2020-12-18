@@ -21,7 +21,6 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - run: echo "::set-output name=matched::yes"
         id: comment
-        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
       - name: Dump Steps Context
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
@@ -33,7 +32,7 @@ jobs:
       matched: ${{ steps.comment.outputs.matched }}
   second-job:
     name: Second Job
-    needs: [destroy-plan]
+    needs: destroy-plan
     runs-on: ubuntu-latest
     steps:
-      - run: echo "${{ needs.destroy-plan.outputs.matched }}"
+      - run: echo ${{ needs.destroy-plan.outputs.matched }}
