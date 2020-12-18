@@ -23,6 +23,7 @@ jobs:
         with:
           format: 'json'
       - name: parse
+        id: parse
         run: |
           readarray -t files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           if (( ${#files[@]} > 1 )); then
