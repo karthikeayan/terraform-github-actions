@@ -21,7 +21,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
       - run: echo "::set-output name=matched::yes"
         id: comment
-        if: contains(github.event.issue.body, 'destroy lsrims-dev fargate-apps-v1')
+        if: contains(github.event.comment.body, 'destroy lsrims-dev fargate-apps-v1')
       - name: Dump Steps Context
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
