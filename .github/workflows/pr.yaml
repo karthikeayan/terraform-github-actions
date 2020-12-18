@@ -42,5 +42,9 @@ jobs:
     name: Second Job
     needs: first-job
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ needs.first-job.outputs.change_directory }}
     steps:
-      - run: echo ${{ needs.first-job.outputs.change_directory }}
+      - run: pwd
+        shell: bash
