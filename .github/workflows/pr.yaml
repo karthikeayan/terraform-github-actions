@@ -25,12 +25,14 @@ jobs:
       - name: parse
         run: |
           readarray -t files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
-          echo ${#files[@]}
           if (( ${#files[@]} > 1 )); then
               echo "more than one file"
+              exit 0
           fi
-          for file in ${files[@]}; do
-            files[$file]="${file%/*}"
+          count=0
+          for i in ${files[@]}; do
+            files[$count]="${i%/*}"
+            count=$((count + 1))
           done
           echo ${files[@]}
     outputs:
