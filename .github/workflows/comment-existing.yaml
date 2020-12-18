@@ -33,7 +33,8 @@ jobs:
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'json'
-      - run: |
+      - name: parse
+        run: |
           readarray -t files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
           echo ${#files[@]}
           if (( ${#files[@]} > 1 )); then
