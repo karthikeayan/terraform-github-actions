@@ -29,3 +29,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         if: steps.comment.outputs.matched == 'yes'
+    outputs:
+      matched: ${{ steps.comment.outputs.matched }}
+  second-job:
+    name: Second Job
+    needs: [destroy-plan]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.destroy-plan.outputs.matched }}
