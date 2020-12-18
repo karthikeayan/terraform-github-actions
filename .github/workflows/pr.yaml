@@ -34,12 +34,12 @@ jobs:
             files[$count]="${i%/*}"
             count=$((count + 1))
           done
-          echo ${files[@]}
+          echo "::set-output name=change_directory::${files[@]}"
     outputs:
-      matched: ${{ steps.parse.outputs.stdout }}
+      change_directory: ${{ steps.parse.outputs.change_directory }}
   second-job:
     name: Second Job
     needs: first-job
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.first-job.outputs.matched }}
+      - run: echo ${{ needs.first-job.outputs.change_directory }}
