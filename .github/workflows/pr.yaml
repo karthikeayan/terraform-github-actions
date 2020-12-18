@@ -1,0 +1,64 @@
+name: 'Pull Request'
+on:
+  pull_request:
+
+env:
+  tf_working_dir: ./test
+
+jobs:
+  first-job:
+    name: First Job
+    runs-on: ubuntu-latest
+    steps:
+name: 'Issue Comment'
+on: issue_comment
+
+env:
+  tf_working_dir: ./test
+
+jobs:
+  destroy-plan:
+    name: Terraform Destroy Plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump Steps Context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Checkout
+        uses: actions/checkout@v2
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
+      - name: parse
+        run: |
+          readarray -t files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          echo ${#files[@]}
+          if (( ${#files[@]} > 1 )); then
+              echo "more than one file"
+          fi
+          for file in ${files[@]}; do
+            files[$file]="${file%/*}"
+          done
+          echo ${files[@]}
+    outputs:
+      matched: ${{ steps.comment.outputs.matched }}
+  second-job:
+    name: Second Job
+    needs: destroy-plan
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.destroy-plan.outputs.matched }}
+    outputs:
+      matched: ${{ steps.comment.outputs.matched }}
+  second-job:
+    name: Second Job
+    needs: destroy-plan
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.destroy-plan.outputs.matched }}
