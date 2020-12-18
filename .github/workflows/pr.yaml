@@ -10,17 +10,6 @@ jobs:
     name: First Job
     runs-on: ubuntu-latest
     steps:
-name: 'Issue Comment'
-on: issue_comment
-
-env:
-  tf_working_dir: ./test
-
-jobs:
-  destroy-plan:
-    name: Terraform Destroy Plan
-    runs-on: ubuntu-latest
-    steps:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -47,18 +36,10 @@ jobs:
           done
           echo ${files[@]}
     outputs:
-      matched: ${{ steps.comment.outputs.matched }}
+      matched: ${{ steps.parse.outputs.stdout }}
   second-job:
     name: Second Job
-    needs: destroy-plan
+    needs: first-job
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.destroy-plan.outputs.matched }}
-    outputs:
-      matched: ${{ steps.comment.outputs.matched }}
-  second-job:
-    name: Second Job
-    needs: destroy-plan
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ needs.destroy-plan.outputs.matched }}
+      - run: echo ${{ needs.first-job.outputs.matched }}
