@@ -29,6 +29,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         if: steps.comment.outputs.matched == 'yes'
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+        with:
+          format: 'json'
+      - run: |
+          readarray -t files <<<"$(jq -r '.[]' <<<'${{ steps.files.outputs.all }}')"
+          echo ${#files[@]}
+          if (( ${#files[@]} > 1 )); then
+              echo "more than one file"
+          fi
+          for file in ${files[@]}; do
+            files[$file]="${file%/*}"
+          done
+          echo ${files[@]}
     outputs:
       matched: ${{ steps.comment.outputs.matched }}
   second-job:
